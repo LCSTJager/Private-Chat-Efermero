@@ -21,7 +21,7 @@ chat-efemero/
 
 ## Como rodar
 
-1. Entre em: https://github.com/LCSTJager/Private-Chat-Efermero, aguarde o serviço iniciar e envie o código gerado para a outra pessoa
+1. Entre em: https://lcstjager.github.io/Private-Chat-Efermero/, aguarde o serviço iniciar e envie o código gerado para a outra pessoa
 
 ## Funcionalidades
 
