@@ -1,35 +1,38 @@
 # Chat Efêmero
 
-Chat ponto-a-ponto (P2P) entre duas pessoas, com visual inspirado em terminal/CMD. Nada fica salvo — quando a sessão termina, a conversa desaparece.
+Chat P2P entre duas pessoas, direto do navegador. Sem instalação, sem conta, sem histórico — fechou a aba, a conversa deixou de existir.
 
 ## Como funciona
 
-- Conexão direta entre os dois participantes via **WebRTC** — as mensagens trafegam de navegador para navegador, sem passar pelo servidor.
-- `server.js` roda um relay de sinalização em Node.js/WebSocket, usado só para as duas pontas se encontrarem e abrirem a conexão P2P. Ele não lê nem armazena o conteúdo das mensagens.
-- Sem histórico e sem banco de dados: encerrou a sessão, a conversa some.
-- Sem instalação — roda direto no navegador.
-- Interface com visual de terminal/CMD.
-- Botão de pânico: esconde o chat instantaneamente e disfarça a página como `about:blank`.
+A conversa acontece por um canal direto via **WebRTC** (`RTCDataChannel`), sem que o conteúdo passe por nenhum servidor. Um pequeno relay de sinalização serve só para apresentar as duas pontas no início — repassa a oferta, a resposta e os candidatos de conexão, e nunca vê o texto das mensagens. Assim que o canal direto abre, o relay já não é necessário.
+
+Para atravessar NATs mais restritivos (rede de operadora, corporativa, etc.), a conexão conta com STUN público e um TURN de retransmissão como plano B.
+
+## Estrutura
+
+```
+chat-efemero/
+├── client/
+│   └── index.html      # cliente único — HTML, CSS e JS, interface estilo terminal
+└── server/
+    ├── server.js        # relay de sinalização (Node.js + ws)
+    └── package.json
+```
+
+## Como rodar
+
+1. Publique a pasta `server/` em qualquer host Node com suporte a WebSocket (ex: [Render](https://render.com), plano free) — build command `npm install`, start command `npm start`.
+2. Copie a URL gerada e cole na constante `SIGNAL_URL`, no topo do `client/index.html`.
+3. Crie uma conta gratuita na [Metered.ca](https://www.metered.ca) e cole suas credenciais TURN em `TURN_USERNAME` / `TURN_CREDENTIAL`, no mesmo bloco de configuração. Sem isso, a conexão entre redes diferentes pode falhar.
+4. Abra o `index.html` — local ou hospedado onde preferir — e compartilhe o link da sala gerado com a outra pessoa.
+
+## Funcionalidades
+
+- Geração automática de sala com link único e compartilhável;
+- Sessão 100% efêmera — nenhuma mensagem toca disco, banco de dados ou servidor;
+- Botão de pânico: oculta o chat inteiro e deixa a tela como uma página em branco (retorno com clique ou `Esc`);
+- Interface com identidade visual de terminal, incluindo sequência de boot.
 
 ## Stack
 
-- **Frontend:** HTML/JS puro (`index.html`)
-- **Backend:** Node.js + WebSocket (`ws`) — relay de sinalização WebRTC (`server.js`)
-- Requer Node.js >= 18
-
-## Rodando localmente
-
-```bash
-npm install
-npm start
-```
-
-Depois abra `index.html` no navegador para iniciar uma sessão.
-
-## Motivação
-
-Projeto pessoal para explorar comunicação P2P (WebRTC) e arquitetura de sinalização sem persistência de dados, priorizando privacidade por design desde a concepção.
-
-## Status
-
-Em desenvolvimento ativo.
+WebRTC · Node.js · WebSocket (`ws`) · Render · STUN/TURN (Google / Metered.ca)
