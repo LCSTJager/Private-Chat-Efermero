@@ -21,10 +21,7 @@ chat-efemero/
 
 ## Como rodar
 
-1. Publique a pasta `server/` em qualquer host Node com suporte a WebSocket (ex: [Render](https://render.com), plano free) — build command `npm install`, start command `npm start`.
-2. Copie a URL gerada e cole na constante `SIGNAL_URL`, no topo do `client/index.html`.
-3. Crie uma conta gratuita na [Metered.ca](https://www.metered.ca) e cole suas credenciais TURN em `TURN_USERNAME` / `TURN_CREDENTIAL`, no mesmo bloco de configuração. Sem isso, a conexão entre redes diferentes pode falhar.
-4. Abra o `index.html` — local ou hospedado onde preferir — e compartilhe o link da sala gerado com a outra pessoa.
+1. Entre em: https://github.com/LCSTJager/Private-Chat-Efermero, aguarde o serviço iniciar e envie o código gerado para a outra pessoa
 
 ## Funcionalidades
 
